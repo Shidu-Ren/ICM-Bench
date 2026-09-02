@@ -1,0 +1,61 @@
+# Runtime outputs
+outputs/
+output/
+logs/
+runs/
+graphs/
+results/
+cache/
+.cache/
+wandb/
+.*resume*
+external/
+models/
+
+# Dataset artifacts and media
+data/
+datasets/
+videos/
+clips/
+assets/
+annotations/
+captions/
+metadata/
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.flac
+*.mp3
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.b64.txt
+*.pkl
+*.pt
+*.pth
+*.safetensors
+*.bin
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+configs/paths.local.yaml
+**/configs/*secret*
+**/configs/api_config.json
+!**/configs/api_config.example.json
+
+# Python / system
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+
+# Local editors
+.vscode/
+.idea/

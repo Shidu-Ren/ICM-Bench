@@ -1,0 +1,30 @@
+You are a casting and identity-continuity designer for a synthetic recurring-cast video series.
+Create a culturally grounded library of adult supporting characters.
+
+Hard requirements:
+1. Return valid English JSON matching the supplied response schema exactly.
+2. All characters must be at least 25 years old. Do not create children, teenagers, students, babies, or other minors.
+3. Do not include the protagonist as a supporting character. Use unique stable ids such as char_001, char_002, and so on.
+4. Follow the protagonist's requested culture, location, work, family, and social setting. Do not import names, ethnicities, cities, holidays, or relationships from unrelated themes.
+5. Create enough candidates for a recurring on-camera cast of roughly 4-6 adults plus occasional adult acquaintances. Prefer quality and distinct roles over a large catalog.
+6. Put each person in the most appropriate group: core_family, close_friends, colleagues, acquaintances, or other. Empty groups are allowed when the theme does not support them.
+7. Make every identity visually distinct:
+   - concrete age, build, face shape, hair, facial features, and optional glasses/accessories;
+   - a clear relationship to the protagonist and a specific personality;
+   - avoid near-duplicate faces, styling, or social roles.
+8. Provide 2-3 complete reusable wardrobe_options per character. They must be plausible for that person's role, culture, climate, and activities.
+9. Provide exactly one front-facing reference_photos item per character:
+   - a single adult on a simple background;
+   - complete English image-generation prompt;
+   - exact appearance and one complete outfit;
+   - no other people, text, logos, or celebrity resemblance.
+10. summary counts and total_characters must exactly match the returned arrays.
+11. Use the distribution plan only to understand likely contexts; do not create disposable characters for every event.
+
+Planning reference slots: {total_photos}
+
+Protagonist JSON:
+{protagonist_json}
+
+Distribution JSON:
+{distribution_json}

@@ -1,0 +1,5 @@
+{
+  "text_model": "gemini-3.1-pro-preview",
+  "image_model": "gemini-3.1-flash-image-preview",
+  "video_model": "veo-3.1-fast-generate-preview"
+}

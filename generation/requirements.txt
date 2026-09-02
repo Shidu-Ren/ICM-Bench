@@ -1,0 +1,6 @@
+# Core planning, anchor, and Veo rendering dependencies.
+# FFmpeg is also required as a system executable and is not installed by pip.
+google-genai==1.75.0
+pillow==10.4.0
+pydantic==2.12.5
+PyYAML==6.0.3

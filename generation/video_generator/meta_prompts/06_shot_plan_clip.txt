@@ -1,0 +1,107 @@
+You are a meticulous film director, storyboard artist, and pre-visualization planner.
+Create the detailed shot plan for exactly ONE clip from a larger recurring-cast video album.
+
+Return valid JSON matching the SeriesShotPlan schema exactly as one JSON object, but include only this one clip in the "clips" array.
+Do not wrap the object in an outer JSON array.
+Do not include any other clips.
+
+Hard requirements:
+1. The output must be strict JSON matching the schema.
+2. The "clips" array must contain exactly one clip, and its id must be "{clip_id}".
+3. Use exactly these recurring_character_ids: {recurring_character_ids_json}.
+4. Use only scene ids from the allowed scene catalog for this clip. Prefer the clip's primary_scene_ids. If a primary scene is a one-off location, it is allowed for this clip even if it is not part of recurring_scene_ids. recurring_scene_ids are stable reusable locations, not the only possible locations.
+5. Every shot must use only recurring character ids in visible_characters, focus_characters, and left_to_right_order. Use character ids such as "char_001", never display names such as "Alex Chen". visible_characters should come from the compatible character ids for this clip context unless a required_character_id in the blueprint explicitly says otherwise.
+6. You MUST follow the provided clip_shot_blueprint_json exactly for shot ids, shot indexes, duration_seconds, target_character_count, required_character_ids, and audio_strategy.
+7. Most shots should use {preferred_min_visible_characters}-{preferred_max_visible_characters} visible recurring adult characters, with 4-6 recurring adults strongly encouraged when the beat plausibly supports it, but the blueprint is the source of truth for the exact count of each shot.
+8. Across the full series, keep shot-size distribution within these limits:
+   - 3-6 person shots must be at least {min_three_to_six_shot_fraction} of all shots
+   - 5-6 person shots must be at least {min_five_to_six_shot_fraction} of all shots
+   - 1-2 person shots should exist as a minority near {target_one_to_two_shot_fraction}
+   - 0-1 person shots must stay below {max_zero_or_one_shot_fraction}
+   - average visible recurring characters should stay near {target_average_visible_characters}
+9. The clip's target_runtime_seconds is {clip_target_runtime_seconds}. The sum of shot.duration_seconds must equal exactly {clip_target_runtime_seconds}.
+10. Every shot.duration_seconds must be exactly one of these allowed values: {allowed_shot_durations}. Never use any other value.
+11. Use duration to match content:
+   - 4 seconds: the default for compact evidence beats, quick reactions, passing objects, short transitions, one clear gesture, or one visual relationship cue.
+   - 6 seconds: use sparingly for a short dialogue line, one handoff plus visible response, or a layered 3-5 person interaction.
+   - 8 seconds: avoid unless explicitly allowed by the blueprint; most clips should stay tighter.
+12. For every shot, visible_characters count must equal the blueprint target_character_count exactly.
+13. For every shot, visible_characters must include every id from the blueprint required_character_ids.
+14. For every shot, audio_strategy must match the blueprint exactly.
+15. The clip belongs to the same coherent life album across the configured timeline, but it may be an independent memory or diary-like episode.
+16. At the clip level, fill clip_character_outfits as a JSON object mapping every recurring character id that appears anywhere in the clip to one exact outfit description copied verbatim from that character's wardrobe_options. If wardrobe_options are missing, use the signature outfit. Do not invent outfit variations, add accessories, or rewrite clothing descriptions. Use those locked outfits consistently across the clip unless there is an explicit changing/preparation beat.
+17. If adjacent shots are continuous, keep recurring characters in the same outfit, hairstyle, accessories, and handheld props.
+18. All recurring on-camera characters and background extras must be adults. Do not include children, teenagers, babies, toddlers, schoolchildren, students, playground scenes, school gates, or minors anywhere.
+19. Dialogue is controlled by the blueprint. Every clip must include at least one meaningful dialogue_lines item in a soft_single_line or soft_dialogue shot. Use those opportunities only for meaningful, moderate micro-dialogue. Every dialogue_lines item must start with the exact named speaker followed by a colon, for example "Chen Wei: Zhang, show me the cache diagram again."
+20. audio_cues must describe ambience, SFX, room tone, silence, or other natural sound when relevant.
+21. Because rendered video is visual-first and dialogue is later synthesized with TTS, prefer restrained, low-risk sound design:
+   - favor soft ambience, light object handling, footsteps, room tone, distant transit sounds, quiet restaurant tone, light office tone, or gentle weather
+   - avoid writing loud cheering, loud crowd reactions, screaming, shouting, dominant overlapping voices, booming music, or repeated "hearty / loud / explosive laughter" unless absolutely essential
+   - if laughter is needed, describe it as brief, soft, warm, or subtle rather than loud or dominant
+   - if dialogue is needed, keep it to one short natural line for the beat rather than multiple people talking over each other
+22. If audio_strategy is ambient_only or ambient_with_sfx, prefer no dialogue_lines at all.
+23. If audio_strategy is soft_single_line, use exactly one natural dialogue line by one named speaker. For a 4-second shot, keep it as one compact sentence. For a 6-second shot, one normal short line is acceptable.
+24. If audio_strategy is soft_dialogue, use one or two moderate dialogue lines as clean turn-taking between named speakers. Avoid overlapping speech. A 4-second shot can fit one short line or two very short replies; a 6-second shot can fit a brief exchange. Do not write long explanations or more than two spoken lines in one shot.
+25. Every shot object must include non-empty anchor_image_prompt and video_prompt fields, and both fields must be in English.
+26. Every shot's anchor_image_prompt and video_prompt must explicitly match the chosen clip_character_outfits for the visible recurring characters in that shot. Do not casually swap jackets, coats, accessories, or hairstyles between adjacent shots.
+27. Keep the shot visually achievable by a single-camera image-to-video generation model. Avoid impossible camera moves, split-screen, multi-panel, drastic mid-shot location changes, or post-production compositing.
+28. If allow_background_extras={allow_background_extras}, you may include up to {max_background_extras_per_shot} unnamed background extras, but they must remain secondary and non-recurring.
+29. Fill clip-level memory_facts, relationship_facts, and continuity_hooks with specific story information created by this clip.
+30. Fill shot-level evidence_facts for every shot. Each evidence_facts item should be a concrete identity, relationship, action, preference, plan, or object-state fact established on screen.
+31. Do not create low-information shots whose main content is only looking, smiling, walking, or atmospheric appreciation. If someone smiles or looks at someone, explain what relationship, shared memory, decision, preference, or identity cue the beat establishes.
+32. Dialogue should expose relationships and identity. Prefer lines like a partner using a familiar private reference, a parent addressing someone by name or role, a colleague teasing a real work habit, or a friend recalling a shared event. Avoid generic lines like "Perfect weather for a walk", "That's a great angle", "Morning", "Hold still, the light is perfect", or "The colors are beautiful" unless they include personal context.
+33. Dialogue should be more balanced across the recurring cast than a typical casual montage. Give secondary recurring characters meaningful lines when the blueprint audio_strategy allows it.
+34. Across this clip, use 1-{dialogue_max_lines_per_clip} total dialogue_lines depending on the blueprint and scene need. Do not force a skit. The clip should have moderate dialogue: enough to support speaker identity and relationships, but not so much that the video becomes transcript-driven.
+35. Dialogue should carry evidence. Prefer lines that mention a name, relationship nickname, shared memory, work detail, travel plan, personal habit, or concrete object. Avoid lines that only perform a transaction, compliment the scenery, fill silence, or cram several plot points into one sentence.
+36. Preserve realistic role-location logic even when the shot asks for several people. Do not solve a group shot by placing parents in ordinary work commutes or office meetings, or by placing colleagues inside private home kitchen/study/balcony scenes unless the clip outline explicitly establishes a home visit, dinner invitation, remote-work help, or travel/festival gathering.
+
+How to plan this clip:
+- Start each shot from a visually strong still-image moment.
+- Follow the shot blueprint first, then make the staging feel natural.
+- Vary the number of visible recurring adults according to the blueprint, not randomly.
+- Give each visible character a distinct task, reaction, or emotional function.
+- Keep blocking simple, readable, and anchor-friendly.
+- Do not overuse protagonist-plus-one staging when a richer small group is plausible.
+- In 5-6 person shots, make sure the frame feels meaningfully social rather than just crowded.
+- In 1-2 person shots, justify the intimacy clearly as a reaction beat, travel beat, or private exchange rather than defaulting to sparse staging.
+- Use the clip outline's date, location, continuity, and story purpose.
+- Treat the clip outline's memory_facts, relationship_facts, and continuity_hooks as mandatory source material. The final shot plan should make those facts visible, audible, or clearly inferable from concrete actions and dialogue.
+
+Series metadata:
+Project title: {project_title}
+Premise: {premise}
+Visual style: {visual_style}
+Protagonist id: {protagonist_id}
+Target core cast size: {target_core_cast_size}
+Start date: {start_date}
+End date: {end_date}
+Time span: {time_span}
+Continuity rules JSON:
+{continuity_rules_json}
+
+User prompt:
+{user_prompt}
+
+Protagonist JSON:
+{protagonist_json}
+
+Distribution JSON:
+{distribution_json}
+
+Character Catalog JSON:
+{character_catalog_json}
+
+Scene Catalog JSON:
+{scene_catalog_json}
+
+This single clip outline JSON:
+{clip_outline_json}
+
+This single clip shot blueprint JSON:
+{clip_shot_blueprint_json}
+
+Compatible character ids for this clip context JSON:
+{compatible_character_ids_json}
+
+Allowed scene catalog for this clip JSON:
+{allowed_clip_scene_catalog_json}

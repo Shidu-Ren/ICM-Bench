@@ -1,0 +1,15 @@
+extends: base_long_memory.yaml
+
+user_prompt: |
+  生成一个 Ghanaian British 女性在伦敦和阿克拉之间平衡事业与家庭照护的 1 年长期记忆视频系列。
+  主角是 45 岁的医院行政主管 Grace Mensah，她在一年里处理职业晋升、照顾父亲、维系婚姻、妹妹关系和跨国亲友网络。
+  主要 recurring characters 应包括 Grace、丈夫、妹妹、父亲、医院同事朋友、阿克拉亲戚或邻居；所有人都必须是成年人。
+  故事围绕医院办公室、伦敦家中、父亲家、社区聚餐、视频通话、短途返乡和季节性家庭决定展开。
+  每个 clip 都要新增可追踪的人物事实：谁承担照护责任、谁回避困难话题、谁记得父亲的偏好、谁在工作压力下支持 Grace。
+  可以自然包含 Ghanaian / British 生活细节、英语和少量 Twi 问候，但人物必须具体、真实、多维。
+  不要出现儿童、青少年、学生或未成年人。
+
+timeline:
+  start_date: "2025-01-01"
+  time_span: "1_year"
+  planning_reference_count: 220

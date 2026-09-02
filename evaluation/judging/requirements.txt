@@ -1,0 +1,5 @@
+# Shared Gemini judge and GPT cross-check environment used for the paper runs.
+google-genai==1.75.0
+openai==2.40.0
+python-dotenv==1.2.1
+tqdm==4.67.3

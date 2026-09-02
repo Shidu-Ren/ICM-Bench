@@ -1,0 +1,148 @@
+workspace_name: "one_year_programmer_family_album"
+
+user_prompt: |
+  生成一个40岁东亚男性程序员的一年人生相簿风格视频系列。
+  他已婚，和妻子关系稳定温暖，父母健在，也有几位成年好友和同事。
+  故事围绕他的工作日常、夫妻生活、探望父母、朋友聚餐、城市散步和偶尔去欧洲旅行展开。
+  整个系列不要出现儿童、青少年、学生或未成年人。
+  风格应当温暖、真实、生活化，有自然的时间推进和相簿记忆感。
+  目标是先生成约200分钟 raw 视频，再筛掉废片，最终保留至少100分钟可用数据。
+  每个 clip 都需要至少一句短对白，用来补充关系、身份和记忆证据。
+  对白要信息量适中、自然、易听懂：可以是一句正常短对白或两句短轮流说话，但不要堆很多句、不要用长句承载复杂剧情，也不要变成“好/谢谢/真不错”这类低信息 filler。
+
+# 群像密度、对白丰富度、多人并行动作等要求由内部导演模板和规划参数控制，
+# 不需要用户把这些低层约束写进 user_prompt。
+
+text_models:
+  protagonist: "gemini-3.1-pro-preview"
+  distribution: "gemini-3.1-pro-preview"
+  character_groups: "gemini-3.1-pro-preview"
+  scene_groups: "gemini-3.1-pro-preview"
+  batch_outline: "gemini-3.1-pro-preview"
+  wardrobe_plan: "gemini-3.1-pro-preview"
+  clip_outline: "gemini-3.1-pro-preview"
+  shot_blueprint: "gemini-3.1-pro-preview"
+  shot_plan: "gemini-3-flash-preview"
+text_model_fallbacks:
+  - "gemini-3-flash-preview"
+  - "gemini-3.1-pro-preview"
+
+series:
+  clip_count_min: 900
+  clip_count_max: 1100
+  default_clip_strategy: "shot_based"
+  shot_blueprint_mode: "balanced_auto"
+  clip_outline_batch_size: 50
+  clip_outline_context_mode: "previous_outlines"
+  clip_outline_similarity_check_enabled: false
+  clip_outline_similarity_threshold: 0.30
+  clip_outline_max_previous_examples: 500
+  wardrobe_options_max: 5
+  target_total_runtime_minutes: 200
+  target_total_runtime_tolerance_minutes: 12
+  target_runtime_seconds_per_clip_min: 8
+  target_runtime_seconds_per_clip_max: 16
+  target_core_cast_size_min: 4
+  target_core_cast_size_max: 6
+  max_visible_characters: 6
+  allow_background_extras: true
+  max_background_extras_per_shot: 3
+  adult_cast_only: true
+  preferred_min_visible_characters: 2
+  preferred_max_visible_characters: 5
+  min_three_to_six_shot_fraction: 0.76
+  min_five_to_six_shot_fraction: 0.10
+  target_one_to_two_shot_fraction: 0.18
+  max_single_shot_fraction: 0.03
+  max_zero_or_one_shot_fraction: 0.03
+  max_empty_shot_fraction: 0.01
+  target_average_visible_characters: 3.55
+  minimum_dense_shots_per_clip: 0
+  minimum_dialogue_beats_per_clip: 1
+  dialogue_shots_per_clip_min: 2
+  dialogue_shots_per_clip_max: 3
+  dialogue_max_lines_per_clip: 5
+  dialogue_min_words_per_line: 1
+  dialogue_max_words_per_4s_shot: 14
+  dialogue_max_words_per_6s_shot: 20
+  dialogue_max_total_words_per_4s_shot: 18
+  dialogue_max_total_words_per_6s_shot: 26
+  minimum_secondary_actions_per_dense_shot: 2
+  minimum_distinct_speakers_per_clip: 1
+
+timeline:
+  start_date: "2025-05-01"
+  time_span: "1_year"
+  planning_reference_count: 365
+
+production:
+  aspect_ratio: "16:9"
+  resolution: "720p"
+  shot_duration_seconds: 4
+  allowed_shot_durations_seconds: [4, 6]
+  anchor_candidates_per_shot: 1
+  anchor_generation_retries: 5
+  anchor_retry_wait_seconds: 5
+  anchor_fallback_mode: "retry_only"
+  anchor_quality_check_enabled: true
+  anchor_quality_check_existing: true
+  anchor_quality_max_attempts: 2
+  anchor_quality_min_score: 0.78
+  anchor_quality_model: "gemini-3.1-pro-preview"
+  asset_generation_workers: 4
+  anchor_generation_workers: 3
+  video_render_workers: 1
+  video_generation_retries: 5
+  video_retry_wait_seconds: 10
+  render_regenerate_anchor_on_rai: true
+  skip_failed_shots: true
+  character_reference_images_per_character: 1
+  scene_reference_images_per_scene: 1
+  person_generation_image_to_video: "allow_adult"
+  person_generation_extension: "allow_all"
+  generate_audio: true
+  reuse_existing_assets: true
+
+prompting:
+  negative_prompt: "children, minors, teenagers, babies, toddlers, students, school gates, playgrounds, large crowds, featured strangers, duplicate faces, twins, deformed hands, warped anatomy, floating objects, text overlays, watermark, celebrities, public figures, famous people, celebrity likeness, real-person lookalike"
+
+voice:
+  enabled: true                         # 设为 true 启用声纹一致性处理
+  method: "gemini_tts_redub"            # 直接按剧本合成对白，避免 Veo 原生音频跑偏
+  voice_workers: 2
+  output_dir_name: "clips_gemini_tts"
+  seed_vc_dir: "external/seed-vc"   # relative to this component; may be overridden by SEED_VC_DIR
+  tts_model: "gemini-3.1-flash-tts-preview"
+  demucs_model: "htdemucs_ft"           # Demucs 分离模型
+  voice_assignments: {}                  # 手动指定: {character_id: voice_name}
+  audition_enabled: true                 # 为主要人物先生成候选声纹试听，并自动选择更匹配年龄/性别/气质的 voice
+  audition_candidates_per_character: 3
+  audition_judge_model: "gemini-3.1-pro-preview"
+  audition_reuse_existing: true
+  default_male_voices: ["Puck", "Charon", "Fenrir", "Orus", "Leda"]
+  default_female_voices: ["Kore", "Aoede", "Zephyr", "Autonoe", "Callirrhoe"]
+  default_extra_voices: ["Schedar", "Rasalgethi", "Iapetus", "Charon"]
+  redub_background_mode: "silent"        # silent=只保留脚本TTS；duck_original=保留并压低原音轨
+  dialogue_duck_db: 18                  # duck_original 时，新对白进入时把原音轨压低的分贝数
+  dialogue_fade_seconds: 0.08           # ducking 淡入淡出
+  min_line_duration_seconds: 0.9        # 单句对白最小占用窗口
+  conversion_source: "script_tts"       # script_tts 保证台词对剧本；native_vocals 只换原人声音色
+  conversion_min_segment_seconds: 0.9   # Seed-VC 单段最短输入窗口
+  conversion_segment_padding_seconds: 0.12
+  strict_voice_conversion: true          # Seed-VC 失败时直接报错，不静默复制原声
+  max_tts_stretch_ratio: 1.45           # 触发台词压缩的自然语速阈值
+  min_tts_stretch_ratio: 0.72           # TTS 最多放慢到原时长的比例
+  allow_unbounded_tts_speedup: true     # 压缩后最终合成完整保留台词，必要时继续加速而不裁剪
+  strict_tts_fit: false                 # true 时，TTS 变速后仍明显超时会报错，便于回头简化台词
+  max_tts_truncation_seconds: 0.35      # strict_tts_fit=false 时超过窗口会告警并裁剪
+  shorten_overlong_dialogue: true       # TTS raw 时长过长时，本地自动缩短台词再重合成
+  tts_shortening_max_rounds: 2
+  tts_estimated_words_per_second: 1.75  # 用于本地估算一行台词在自然语速下的容量
+  tts_shortening_min_words: 3
+  tts_shortening_buffer_seconds: 0.15
+  diffusion_steps: 25                   # Seed-VC 扩散步数
+  length_adjust: 1.0                    # 保持原始时长
+  inference_cfg_rate: 0.7               # Seed-VC 参考强度
+  vocals_loudness_lufs: -16             # 人声响度
+  background_loudness_lufs: -26         # 背景音响度
+  device: "cuda:0"                      # GPU 设备

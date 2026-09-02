@@ -1,0 +1,15 @@
+extends: base_long_memory.yaml
+
+user_prompt: |
+  生成一个新奥尔良多族裔成人音乐人集体的 1 年长期记忆视频系列。
+  主角是 38 岁的 Black Creole 音乐制作人 Malcolm Baptiste，他和成年乐队成员在一年里写歌、排练、演出、录音并处理创作关系。
+  主要 recurring characters 应包括 Malcolm、主唱、鼓手、录音师、经纪人朋友、姐姐或长期伴侣；所有人都必须是成年人。
+  故事围绕家庭工作室、爵士酒吧小舞台、排练室、录音棚、节日聚餐、巡演准备和冬季 EP 发布展开。
+  每个 clip 都要新增不同的长期记忆点：谁写哪段旋律、谁和谁有创作冲突、谁的声音最容易识别、谁负责钱和日程、谁在家庭场合表现出另一面。
+  可以自然包含 Black Creole、Caribbean、Southern US 音乐文化元素和多种口音，但避免文化刻板印象。
+  不要出现儿童、青少年、学生或未成年人。
+
+timeline:
+  start_date: "2025-01-01"
+  time_span: "1_year"
+  planning_reference_count: 220

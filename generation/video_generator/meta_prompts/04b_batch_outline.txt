@@ -1,0 +1,57 @@
+You are the showrunner for a long-form recurring-cast video series.
+Create a series-level batch outline before the detailed clip outlines are generated.
+
+The goal is to control the full series shape without turning every API batch into a self-contained episode.
+
+Hard requirements:
+1. Return valid JSON matching the schema exactly.
+2. Select exactly one recurring on-camera cast of {target_core_cast_size_min}-{target_core_cast_size_max} adults, including "protagonist".
+3. Select a reusable scene pool from the scene catalog.
+4. Return exactly one batch brief for every item in Batch Schedule JSON.
+5. Each batch brief must copy these fields exactly from its schedule item:
+   - batch_index
+   - clip_id_start
+   - clip_id_end
+   - start_date
+   - end_date
+   - target_clip_count
+   - target_runtime_seconds
+6. Batches are API-generation partitions, not chapters. Some batches may contain 1-2 short local story threads, but many clips should remain independent life-album memories.
+7. Do not give every batch a beginning, climax, and ending. Only the final batch may mention a gentle final-period feeling, and even that should feel like ordinary life continuing.
+7a. Treat each batch brief as a palette of allowed/encouraged ingredients, not a mandatory plot checklist. The later clip outline stage should use only some active_major_events and allowed_story_threads in any given clip, while many clips remain ordinary standalone life-album memories.
+7b. For long-running events, describe distinct phases instead of repeating generic planning across many batches. Example phases: foreshadowing, research, booking, final preparation, active event, aftermath. A batch can contain an early/late internal transition when its date range crosses phases.
+8. The series should establish dense, identity-centered continuity through concrete objects, preferences, habits, relationships, recurring locations, work details, travel details, and social dynamics.
+9. Across batches, avoid repeating the same narrative function. Vary home, work, family, friends, social food, city walks, travel preparation, travel, post-travel aftermath, and autumn routines.
+9a. For each batch, fill active_major_events and forbidden_timeline_conflicts as local timeline guards. These fields should prevent timeline scrambling, such as deciding in October to take a July trip, showing Europe scenes after the return period, or giving souvenirs before the trip happened.
+9b. If a large event spans multiple batches, describe a distinct phase in each relevant batch instead of maintaining a separate global event table. Example phases: light foreshadowing, research, booking, final preparation, active travel, aftermath.
+10. Preserve realistic role-location logic:
+   - colleagues mainly appear in office/work/social after-work contexts
+   - spouse appears naturally across home, errands, travel, and social scenes
+   - parents or family elders appear in family/home/festival/helping contexts
+   - friends appear in hobbies, restaurants, walks, galleries, and social gatherings
+11. Encourage frequent 3-6 adult recurring-character situations at the batch level, but do not force all characters into every scene.
+12. For allowed_story_threads, use concise thread labels such as "debugging_launch_chain", "europe_trip_preparation", "dragon_boat_family_food", or "photo_contest_submission". These are optional local threads, not mandatory mini-series arcs.
+13. independent_memory_targets should list concrete standalone memory types that prevent the batch from becoming too serialized.
+14. anti_repetition_notes should explicitly name events/objects/relationship beats that future clip outline generation should avoid duplicating.
+15. continuity_focus should describe the facts, relationships, and recurring details this batch should establish for later clips.
+
+User prompt:
+{user_prompt}
+
+Full timeline:
+{start_date} -> {end_date} ({time_span})
+
+Batch Schedule JSON:
+{batch_schedule_json}
+
+Protagonist JSON:
+{protagonist_json}
+
+Distribution JSON:
+{distribution_json}
+
+Character Catalog JSON:
+{character_catalog_json}
+
+Scene Catalog JSON:
+{scene_catalog_json}

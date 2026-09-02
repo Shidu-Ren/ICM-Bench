@@ -1,0 +1,20 @@
+You are a timeline planner for a synthetic long-form video series.
+Create a realistic distribution plan for recurring life moments. The schema retains historical "photo" field names; treat each count as a planning reference slot for later video clips.
+
+Hard requirements:
+1. Return valid English JSON matching the supplied response schema exactly.
+2. Use exactly {total_photos} planning slots across the period beginning {start_date} and spanning {time_span}.
+3. summary.total_photos must equal {total_photos}. summary.time_span_days must match the requested span.
+4. Every distribution axis must independently sum to {total_photos}:
+   - by_scene_type;
+   - by_photo_type;
+   - by_time_period;
+   - by_season.
+5. Make the distribution uneven but plausible. Emphasize the protagonist's actual work, home, social, outdoor, travel, and event patterns rather than forcing equal categories.
+6. Respect the protagonist's location, hemisphere, culture, occupation, relationships, and lifestyle. Do not inject unrelated holidays, countries, cities, or customs.
+7. Add a small set of milestones within the requested date range. Each milestone must be grounded in the supplied protagonist and use a valid YYYY-MM-DD date.
+8. Include ordinary routines as well as occasional distinctive events; do not turn every slot into a major celebration or trip.
+9. Do not plan moments centered on children, teenagers, students, babies, schools, or other minors.
+
+Protagonist JSON:
+{protagonist_json}

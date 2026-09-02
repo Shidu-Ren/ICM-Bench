@@ -1,0 +1,13 @@
+# Modified by the ICM-Bench authors in 2026 for benchmark integration.
+opencv-python-headless 
+pillow 
+matplotlib 
+pydub 
+scikit-learn 
+tqdm 
+openai 
+moviepy
+httpx==0.23.0
+google-genai
+
+# python==3.9.2

@@ -1,0 +1,15 @@
+extends: base_long_memory.yaml
+
+user_prompt: |
+  生成一个多伦多成人婚礼摄影团队的 3 个月长期记忆视频系列。
+  主角是 33 岁的 Indo Canadian 男性婚礼摄影师 Arjun Mehta，他和多元文化成人团队在旺季拍摄不同婚礼，同时处理自己的亲密关系和职业压力。
+  主要 recurring characters 应包括 Arjun、他的伴侣、第二摄影师、婚礼策划师朋友、剪辑师、姐姐或成年表亲；所有人都必须是成年人。
+  故事围绕设备准备、场地勘景、拍摄复盘、家庭晚餐、客户沟通、团队冲突和旺季结束后的职业选择展开。
+  每个 clip 都要新增不同的可问信息：谁擅长安抚客户、谁记得某个家庭传统、谁总是检查电池、谁和 Arjun 对艺术/商业取向有分歧。
+  可以自然包含 Punjabi / Hindi / English 文化细节、多伦多多元社区和婚礼行业细节，但避免把人物写成文化标签。
+  不要出现儿童、青少年、学生或未成年人。
+
+timeline:
+  start_date: "2025-05-01"
+  time_span: "3_months"
+  planning_reference_count: 110

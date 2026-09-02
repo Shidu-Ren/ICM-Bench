@@ -1,0 +1,29 @@
+# Copy to configs/paths.local.yaml. Values use the generic roots from
+# .env.example; expand them in your shell or configuration loader.
+
+dataset:
+  root: ${ICM_BENCH_DATA_ROOT}
+  videos: ${ICM_BENCH_DATA_ROOT}/videos
+  qa_json: ${ICM_BENCH_DATA_ROOT}/annotations/qa_test.json
+  qa_jsonl: ${ICM_BENCH_DATA_ROOT}/annotations/qa_test.jsonl
+  speakerless_transcripts: ${ICM_BENCH_DATA_ROOT}/resources/asr_transcripts
+  reference_transcripts: ${ICM_BENCH_DATA_ROOT}/resources/transcripts_with_speakers
+
+outputs:
+  root: ${ICM_BENCH_OUTPUT_ROOT}
+  m3agent: ${ICM_BENCH_OUTPUT_ROOT}/m3agent
+  vgent: ${ICM_BENCH_OUTPUT_ROOT}/vgent
+  hipporag2: ${ICM_BENCH_OUTPUT_ROOT}/hipporag2
+  judging: ${ICM_BENCH_OUTPUT_ROOT}/judging
+
+models:
+  root: ${ICM_BENCH_MODEL_ROOT}
+
+components:
+  m3agent: evaluation/m3_agent
+  vgent: evaluation/vgent
+  hipporag2: evaluation/hipporag2
+
+runtime:
+  cuda_visible_devices: ${CUDA_VISIBLE_DEVICES}
+  openai_base_url: ${OPENAI_BASE_URL}
