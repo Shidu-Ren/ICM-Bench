@@ -1,0 +1,87 @@
+user_prompt: |
+  生成一个40岁东亚男性程序员的半年人生相簿风格视频系列。
+  他已婚，和妻子关系稳定温暖，父母健在，也有几位成年好友和同事。
+  故事围绕他的工作日常、夫妻生活、探望父母、朋友聚餐、城市散步和偶尔去欧洲旅行展开。
+  整个系列不要出现儿童、青少年、学生或未成年人。
+  风格应当温暖、真实、生活化，有自然的时间推进和相簿记忆感。
+
+workspace_name: "pilot_video_series"
+
+series:
+  clip_count_min: 6
+  clip_count_max: 8
+  default_clip_strategy: "shot_based"
+  shot_blueprint_mode: "balanced_auto"
+  clip_outline_batch_size: 25
+  target_total_runtime_minutes: 1.4
+  target_total_runtime_tolerance_minutes: 0.4
+  target_runtime_seconds_per_clip_min: 4
+  target_runtime_seconds_per_clip_max: 20
+  target_core_cast_size_min: 4
+  target_core_cast_size_max: 6
+  max_visible_characters: 6
+  allow_background_extras: true
+  max_background_extras_per_shot: 3
+  adult_cast_only: true
+  preferred_min_visible_characters: 3
+  preferred_max_visible_characters: 6
+  min_three_to_six_shot_fraction: 0.86
+  min_five_to_six_shot_fraction: 0.20
+  target_one_to_two_shot_fraction: 0.08
+  max_single_shot_fraction: 0.03
+  max_zero_or_one_shot_fraction: 0.03
+  max_empty_shot_fraction: 0.01
+  target_average_visible_characters: 4.15
+  minimum_dense_shots_per_clip: 0
+  minimum_dialogue_beats_per_clip: 1
+  dialogue_shots_per_clip_min: 2
+  dialogue_shots_per_clip_max: 3
+  minimum_secondary_actions_per_dense_shot: 2
+  minimum_distinct_speakers_per_clip: 1
+
+timeline:
+  start_date: "2025-05-01"
+  time_span: "6_months"
+  planning_reference_count: 20
+
+production:
+  aspect_ratio: "16:9"
+  resolution: "720p"
+  shot_duration_seconds: 4
+  allowed_shot_durations_seconds: [4, 6]
+  anchor_candidates_per_shot: 1
+  anchor_generation_retries: 5
+  anchor_retry_wait_seconds: 5
+  anchor_fallback_mode: "retry_only"
+  video_generation_retries: 5
+  video_retry_wait_seconds: 10
+  character_reference_images_per_character: 1
+  scene_reference_images_per_scene: 1
+  person_generation_image_to_video: "allow_adult"
+  person_generation_extension: "allow_all"
+  generate_audio: false
+  reuse_existing_assets: true
+
+prompting:
+  negative_prompt: "children, minors, teenagers, babies, toddlers, students, school gates, playgrounds, large crowds, featured strangers, duplicate faces, twins, deformed hands, warped anatomy, floating objects, text overlays, watermark"
+
+voice:
+  enabled: false
+  method: "gemini_tts_redub"
+  seed_vc_dir: "external/seed-vc"
+  tts_model: "gemini-3.1-flash-tts-preview"
+  demucs_model: "htdemucs_ft"
+  voice_assignments: {}
+  default_male_voices: ["Puck", "Charon", "Fenrir", "Orus", "Leda"]
+  default_female_voices: ["Kore", "Aoede", "Elara", "Zephyr", "Nova"]
+  dialogue_duck_db: 18
+  dialogue_fade_seconds: 0.08
+  min_line_duration_seconds: 0.9
+  max_tts_stretch_ratio: 1.45
+  min_tts_stretch_ratio: 0.72
+  diffusion_steps: 25
+  length_adjust: 1.0
+  inference_cfg_rate: 0.7
+  vocals_loudness_lufs: -16
+  background_loudness_lufs: -26
+  device: "cuda:0"

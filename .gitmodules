@@ -1,0 +1,3 @@
+[submodule "evaluation/vgent/upstream"]
+	path = evaluation/vgent/upstream
+	url = https://github.com/xiaoqian-shen/Vgent.git

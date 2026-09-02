@@ -1,0 +1,92 @@
+extends: six_month_sao_paulo_community_theater.yaml
+
+workspace_name: "mini_sao_paulo_community_theater_demo"
+
+user_prompt: |
+  生成一个圣保罗成人社区剧团的 30-clip 第二主题 pipeline demo。
+  主角是 42 岁的 Afro Brazilian 舞台经理 Renata Silva，她和导演、演员朋友、服装师、灯光师、鼓手/音乐指导、长期志愿者一起准备一场小剧场演出。
+  主要 recurring characters 必须围绕社区剧团：Renata、导演、主角演员、服装师、灯光师、音乐指导或长期志愿者。所有人都必须是成年人。
+  故事只围绕读本会、排练、服装试穿、道具保管、舞台灯光、后台沟通、公交雨夜、演出前事故和演出后的关系修复展开。
+  每个 clip 都要新增明确的长期记忆点：谁总是迟到但临场发挥强、谁保管关键道具、谁害怕上台、谁在冲突后主动修复关系、谁的声音或工作风格能被反复识别。
+  可以自然包含葡萄牙语短句、巴西城市文化、剧场工作和混合族裔社区生活，但避免文化符号堆砌或刻板化。
+  不要混入与圣保罗社区剧团主题无关的城市、节日、人物或旅行剧情。
+  不要出现儿童、青少年、学生或未成年人。
+
+series:
+  clip_count_min: 30
+  clip_count_max: 30
+  default_clip_strategy: "shot_based"
+  shot_blueprint_mode: "balanced_auto"
+  clip_outline_batch_size: 30
+  clip_outline_context_mode: "previous_outlines"
+  clip_outline_similarity_check_enabled: false
+  clip_outline_max_previous_examples: 30
+  target_total_runtime_minutes: 6.0
+  target_total_runtime_tolerance_minutes: 1.0
+  target_runtime_seconds_per_clip_min: 8
+  target_runtime_seconds_per_clip_max: 16
+  target_core_cast_size_min: 4
+  target_core_cast_size_max: 6
+  max_visible_characters: 6
+  allow_background_extras: true
+  max_background_extras_per_shot: 3
+  adult_cast_only: true
+  preferred_min_visible_characters: 2
+  preferred_max_visible_characters: 5
+  min_three_to_six_shot_fraction: 0.45
+  min_five_to_six_shot_fraction: 0.05
+  target_one_to_two_shot_fraction: 0.35
+  max_single_shot_fraction: 0.08
+  max_zero_or_one_shot_fraction: 0.08
+  max_empty_shot_fraction: 0.02
+  target_average_visible_characters: 3.2
+  minimum_dense_shots_per_clip: 0
+  minimum_dialogue_beats_per_clip: 1
+  dialogue_shots_per_clip_min: 1
+  dialogue_shots_per_clip_max: 3
+  dialogue_max_lines_per_clip: 4
+  dialogue_min_words_per_line: 1
+  dialogue_max_words_per_4s_shot: 14
+  dialogue_max_words_per_6s_shot: 20
+  dialogue_max_total_words_per_4s_shot: 18
+  dialogue_max_total_words_per_6s_shot: 26
+  minimum_secondary_actions_per_dense_shot: 1
+  minimum_distinct_speakers_per_clip: 1
+
+timeline:
+  start_date: "2025-09-01"
+  time_span: "1_month"
+  planning_reference_count: 30
+
+production:
+  asset_generation_workers: 4
+  anchor_generation_workers: 3
+  video_render_workers: 1
+  anchor_candidates_per_shot: 1
+  anchor_quality_check_enabled: true
+  anchor_quality_check_existing: true
+  anchor_quality_max_attempts: 2
+  anchor_quality_min_score: 0.78
+  video_generation_retries: 5
+  render_regenerate_anchor_on_rai: true
+  skip_failed_shots: true
+  generate_audio: true
+  reuse_existing_assets: true
+
+voice:
+  enabled: true
+  method: "gemini_tts_redub"
+  voice_workers: 2
+  output_dir_name: "clips_gemini_tts"
+  tts_model: "gemini-3.1-flash-tts-preview"
+  audition_enabled: true
+  audition_candidates_per_character: 3
+  audition_judge_model: "gemini-3.1-pro-preview"
+  audition_reuse_existing: true
+  redub_background_mode: "silent"
+  conversion_source: "script_tts"
+  strict_voice_conversion: true
+  shorten_overlong_dialogue: true
+  tts_shortening_max_rounds: 2
+  allow_unbounded_tts_speedup: true
+  strict_tts_fit: false

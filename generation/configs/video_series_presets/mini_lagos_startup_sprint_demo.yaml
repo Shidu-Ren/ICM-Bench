@@ -1,0 +1,47 @@
+extends: one_month_lagos_startup_sprint.yaml
+
+workspace_name: "mini_lagos_startup_sprint_demo"
+
+user_prompt: |
+  生成一个尼日利亚拉各斯成人创业团队的 1 个月长期记忆视频系列，用作第二主题 pipeline demo。
+  主角是 34 岁的 Yoruba 女性产品设计师 Amara Okafor，她和成年合伙人、工程师、运营负责人、投资人朋友、职业导师一起准备一个 fintech demo day。
+  主要 recurring characters 必须围绕创业项目：Amara、技术合伙人、后端工程师、运营负责人、投资人朋友、职业导师。所有人都必须是成年人。
+  故事只围绕产品设计、用户访谈、共享办公室冲刺、原型演示、投资人排练、拉各斯交通、团队分歧和 demo day 准备展开。
+  每个 clip 都要新增明确的记忆点：谁负责什么、谁和谁有分歧、谁私下支持谁、谁掌握某个客户线索、谁的工作习惯或说话风格被反复识别。
+  可以自然包含英语、尼日利亚英语、少量 Yoruba 文化元素和拉各斯城市生活，但避免文化符号堆砌或刻板化。
+  不要混入与拉各斯创业主题无关的城市、节日、人物或旅行剧情。
+  不要出现儿童、青少年、学生或未成年人。
+
+series:
+  clip_count_min: 12
+  clip_count_max: 12
+  clip_outline_batch_size: 12
+  clip_outline_context_mode: "previous_outlines"
+  target_total_runtime_minutes: 2.4
+  target_total_runtime_tolerance_minutes: 0.4
+  target_runtime_seconds_per_clip_min: 8
+  target_runtime_seconds_per_clip_max: 16
+  target_core_cast_size_min: 4
+  target_core_cast_size_max: 6
+  preferred_min_visible_characters: 2
+  preferred_max_visible_characters: 5
+  min_three_to_six_shot_fraction: 0.45
+  min_five_to_six_shot_fraction: 0.05
+  target_one_to_two_shot_fraction: 0.35
+  target_average_visible_characters: 3.2
+  dialogue_shots_per_clip_min: 1
+  dialogue_shots_per_clip_max: 3
+  dialogue_max_lines_per_clip: 4
+
+timeline:
+  start_date: "2025-08-01"
+  time_span: "1_month"
+  planning_reference_count: 30
+
+production:
+  video_render_workers: 1
+  generate_audio: false
+
+voice:
+  enabled: false
+  audition_enabled: false

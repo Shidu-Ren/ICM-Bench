@@ -1,0 +1,15 @@
+extends: base_long_memory.yaml
+
+user_prompt: |
+  生成一个墨西哥城成人朋友群准备地下晚餐俱乐部的 1 个月长期记忆视频系列。
+  主角是 36 岁的 Mexican American 女性纪录片摄影师 Isabel Rivera，她回到墨西哥城与成年朋友们一起策划一个小型 supper club。
+  主要 recurring characters 应包括 Isabel、厨师朋友、调酒师、表姐、音乐人朋友和社区空间负责人；所有人都必须是成年人。
+  故事围绕菜单试做、市场采购、家庭食谱争论、场地布置、摄影记录、朋友间旧回忆和最终晚餐活动展开。
+  每个 clip 都要建立不同的信息点：谁记得哪道家族菜、谁负责预算、谁和谁曾经合作失败、谁的审美或口味偏好反复出现。
+  可以自然包含西班牙语短句、墨西哥城市生活、家庭食谱和艺术社区元素，但避免文化符号堆砌或刻板化。
+  不要出现儿童、青少年、学生或未成年人。
+
+timeline:
+  start_date: "2025-05-01"
+  time_span: "1_month"
+  planning_reference_count: 80

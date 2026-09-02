@@ -1,0 +1,12 @@
+decord==0.6.0
+flash-attn==2.7.4.post1
+pysubs2
+pyarrow
+pandas
+torch==2.6.0
+torchvision==0.21.0
+# Pinned after official Qwen3.5 support landed; the released PyPI build predates it.
+transformers @ git+https://github.com/huggingface/transformers.git@a5f41e095ad67806f946feb692dd99fe520d03a3
+tokenizers==0.22.2
+networkx
+accelerate

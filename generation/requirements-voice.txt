@@ -1,0 +1,12 @@
+-r requirements.txt
+
+# Optional voice conversion, diarization, mixing, and TTS post-processing.
+demucs
+librosa
+numpy
+pyloudnorm
+scikit-learn
+soundfile
+speechbrain
+torch
+torchaudio

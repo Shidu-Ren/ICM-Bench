@@ -1,0 +1,49 @@
+extends: base_long_memory.yaml
+
+workspace_name: "mini_mexico_city_supper_club_demo"
+
+user_prompt: |
+  生成一个墨西哥城成人朋友群准备地下晚餐俱乐部的 1 个月长期记忆视频系列。
+  主角是 36 岁的 Latina / Mexican 女性纪录片摄影师 Isabel Rivera，长期住在 Mexico City，与成年朋友们一起策划一个小型 supper club。
+  主要 recurring characters 必须全部来自这个 supper club 团队：Isabel、厨师朋友、调酒师、预算/运营负责人、音乐人朋友、社区空间负责人。所有人都必须是成年人，并且都不是亲属。
+  人物组里不要生成 core_family 成员；如果 schema 需要分组，请把所有 recurring adults 放在 close_friends、colleagues 或 other creative collaborators 里。
+  不要加入亲属、未成年人、学生或与 supper club 无关的办公室、旅行和家庭节日剧情。
+  故事只围绕菜单试做、市场采购、厨师个人食谱争论、场地布置、摄影记录、朋友间旧回忆和最终晚餐活动展开。
+  每个 clip 都要建立不同的信息点：谁记得哪道家族菜、谁负责预算、谁和谁曾经合作失败、谁的审美或口味偏好反复出现。
+  可以自然包含西班牙语短句、墨西哥城市生活、厨师食谱和艺术社区元素，但避免文化符号堆砌或刻板化。
+  所有角色姓名、场景、食物、道具、回忆事实和对白必须属于墨西哥城 supper club 主题，不得出现任何中国家庭相簿或上海程序员主题的残留。
+  不要出现儿童、青少年、学生或未成年人。
+
+series:
+  clip_count_min: 12
+  clip_count_max: 12
+  clip_outline_batch_size: 12
+  clip_outline_context_mode: "previous_outlines"
+  target_total_runtime_minutes: 2.4
+  target_total_runtime_tolerance_minutes: 0.4
+  target_runtime_seconds_per_clip_min: 8
+  target_runtime_seconds_per_clip_max: 16
+  target_core_cast_size_min: 4
+  target_core_cast_size_max: 6
+  preferred_min_visible_characters: 2
+  preferred_max_visible_characters: 5
+  min_three_to_six_shot_fraction: 0.45
+  min_five_to_six_shot_fraction: 0.05
+  target_one_to_two_shot_fraction: 0.35
+  target_average_visible_characters: 3.2
+  dialogue_shots_per_clip_min: 1
+  dialogue_shots_per_clip_max: 3
+  dialogue_max_lines_per_clip: 4
+
+timeline:
+  start_date: "2025-06-01"
+  time_span: "1_month"
+  planning_reference_count: 30
+
+production:
+  video_render_workers: 1
+  generate_audio: false
+
+voice:
+  enabled: false
+  audition_enabled: false

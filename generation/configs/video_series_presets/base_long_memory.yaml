@@ -1,0 +1,132 @@
+# Shared settings for synthetic long-form video series.
+# Individual preset YAMLs extend this file and override only topic/timeline fields.
+
+user_prompt: |
+  生成一个成人主角团的长期人生相簿风格视频系列。
+  整个系列不要出现儿童、青少年、学生或未成年人。
+  风格应当温暖、真实、生活化，有自然的时间推进和相簿记忆感。
+  每个 clip 都要新增一个可在后续剧情中保持连贯的人物事实、关系变化、偏好、习惯、职责或共同经历。
+  每个 clip 都要至少有一句短对白，作为人物身份、关系或记忆事实的轻量证据。
+  不要让 clip 只停留在喝咖啡、散步、对视微笑、天气闲聊等低信息量片段。
+  允许不同种族、文化、语言背景的人物自然出现，但避免刻板印象；人物应当具体、真实、多维。
+
+text_models:
+  protagonist: "gemini-3.1-pro-preview"
+  distribution: "gemini-3.1-pro-preview"
+  character_groups: "gemini-3.1-pro-preview"
+  scene_groups: "gemini-3.1-pro-preview"
+  batch_outline: "gemini-3.1-pro-preview"
+  wardrobe_plan: "gemini-3.1-pro-preview"
+  clip_outline: "gemini-3.1-pro-preview"
+  shot_blueprint: "gemini-3.1-pro-preview"
+  shot_plan: "gemini-3-flash-preview"
+text_model_fallbacks:
+  - "gemini-3-flash-preview"
+  - "gemini-3.1-pro-preview"
+
+series:
+  clip_count_min: 900
+  clip_count_max: 1100
+  default_clip_strategy: "shot_based"
+  shot_blueprint_mode: "balanced_auto"
+  clip_outline_batch_size: 50
+  clip_outline_context_mode: "previous_outlines"
+  clip_outline_similarity_check_enabled: false
+  clip_outline_similarity_threshold: 0.30
+  clip_outline_max_previous_examples: 500
+  target_total_runtime_minutes: 200
+  target_total_runtime_tolerance_minutes: 12
+  target_runtime_seconds_per_clip_min: 8
+  target_runtime_seconds_per_clip_max: 16
+  target_core_cast_size_min: 4
+  target_core_cast_size_max: 6
+  max_visible_characters: 6
+  allow_background_extras: true
+  max_background_extras_per_shot: 3
+  adult_cast_only: true
+  preferred_min_visible_characters: 3
+  preferred_max_visible_characters: 6
+  min_three_to_six_shot_fraction: 0.86
+  min_five_to_six_shot_fraction: 0.26
+  target_one_to_two_shot_fraction: 0.08
+  max_single_shot_fraction: 0.03
+  max_zero_or_one_shot_fraction: 0.03
+  max_empty_shot_fraction: 0.01
+  target_average_visible_characters: 4.35
+  minimum_dense_shots_per_clip: 0
+  minimum_dialogue_beats_per_clip: 1
+  dialogue_shots_per_clip_min: 2
+  dialogue_shots_per_clip_max: 3
+  dialogue_max_lines_per_clip: 5
+  dialogue_min_words_per_line: 1
+  dialogue_max_words_per_4s_shot: 14
+  dialogue_max_words_per_6s_shot: 20
+  dialogue_max_total_words_per_4s_shot: 18
+  dialogue_max_total_words_per_6s_shot: 26
+  minimum_secondary_actions_per_dense_shot: 2
+  minimum_distinct_speakers_per_clip: 1
+
+timeline:
+  start_date: "2025-05-01"
+  time_span: "1_year"
+  planning_reference_count: 365
+
+production:
+  aspect_ratio: "16:9"
+  resolution: "720p"
+  shot_duration_seconds: 4
+  allowed_shot_durations_seconds: [4, 6]
+  anchor_candidates_per_shot: 1
+  anchor_generation_retries: 5
+  anchor_retry_wait_seconds: 5
+  anchor_fallback_mode: "retry_only"
+  anchor_quality_check_enabled: true
+  anchor_quality_check_existing: true
+  anchor_quality_max_attempts: 2
+  anchor_quality_min_score: 0.78
+  anchor_quality_model: "gemini-3.1-pro-preview"
+  asset_generation_workers: 4
+  anchor_generation_workers: 3
+  video_render_workers: 2
+  video_generation_retries: 5
+  video_retry_wait_seconds: 10
+  character_reference_images_per_character: 1
+  scene_reference_images_per_scene: 1
+  person_generation_image_to_video: "allow_adult"
+  person_generation_extension: "allow_all"
+  generate_audio: true
+  reuse_existing_assets: true
+
+prompting:
+  negative_prompt: "children, minors, teenagers, babies, toddlers, students, school gates, playgrounds, large crowds, featured strangers, duplicate faces, twins, deformed hands, warped anatomy, floating objects, text overlays, watermark"
+
+voice:
+  enabled: true
+  method: "gemini_tts_redub"
+  voice_workers: 2
+  output_dir_name: "clips_gemini_tts"
+  seed_vc_dir: "external/seed-vc"
+  tts_model: "gemini-3.1-flash-tts-preview"
+  demucs_model: "htdemucs_ft"
+  voice_assignments: {}
+  audition_enabled: true
+  audition_candidates_per_character: 3
+  audition_judge_model: "gemini-3.1-pro-preview"
+  audition_reuse_existing: true
+  default_male_voices: ["Puck", "Charon", "Fenrir", "Orus", "Leda"]
+  default_female_voices: ["Kore", "Aoede", "Elara", "Zephyr", "Nova"]
+  default_extra_voices: ["Schedar", "Rasalgethi", "Iapetus", "Charon"]
+  redub_background_mode: "silent"
+  dialogue_duck_db: 18
+  dialogue_fade_seconds: 0.08
+  min_line_duration_seconds: 0.9
+  max_tts_stretch_ratio: 1.45
+  min_tts_stretch_ratio: 0.72
+  strict_tts_fit: false
+  max_tts_truncation_seconds: 0.35
+  diffusion_steps: 25
+  length_adjust: 1.0
+  inference_cfg_rate: 0.7
+  vocals_loudness_lufs: -16
+  background_loudness_lufs: -26
+  device: "cuda:0"

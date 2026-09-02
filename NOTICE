@@ -1,0 +1,41 @@
+ICM-Bench licensing and attribution notice
+==========================================
+
+Project code and documentation
+------------------------------
+
+Unless a file or subtree states otherwise, original ICM-Bench code and
+documentation in this repository are licensed under the MIT License in
+`LICENSE`.
+
+Dataset
+-------
+
+The ICM-Bench dataset is distributed separately at:
+
+https://huggingface.co/datasets/ryanren0330/ICM-Bench
+
+The released dataset, including its annotations and synthetic audiovisual
+media, is licensed under Creative Commons Attribution-NonCommercial-
+ShareAlike 4.0 International. The full text is in `LICENSE-DATASET`. The
+top-level MIT License does not apply to the dataset. The videos were generated
+with Google Gemini/Veo services; users remain responsible for complying with
+applicable law, provider terms, and the dataset license.
+
+Evaluation framework code
+-------------------------
+
+* `evaluation/m3_agent/` contains M3-Agent code governed by Apache-2.0. Its
+  license is retained at `evaluation/m3_agent/LICENSE`.
+* `evaluation/judging/prompts.py` adapts the M3-Agent semantic answer-verification
+  prompt and retains its Apache-2.0 provenance and modification notice.
+* `evaluation/hipporag2/` contains HippoRAG2 code governed by the MIT License
+  retained at `evaluation/hipporag2/LICENSE`.
+* `evaluation/vgent/` contains original ICM-Bench integration code. The
+  upstream Vgent repository is referenced, rather than copied, through the
+  `evaluation/vgent/upstream` Git submodule. The audited Vgent revision did not
+  contain a repository-level license; initializing the submodule does not
+  itself grant rights to copy, modify, or redistribute the fetched upstream
+  code.
+
+See `evaluation/UPSTREAMS.md` for upstream URLs and audited revisions.

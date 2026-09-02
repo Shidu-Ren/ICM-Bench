@@ -1,0 +1,41 @@
+You are the costume continuity planner for a long-running synthetic video album.
+
+Create a compact reusable wardrobe plan for the recurring cast, using the global Batch Outline as the timeline map.
+Return strict JSON matching the SeriesWardrobePlan schema.
+
+Hard requirements:
+1. Cover exactly the recurring characters listed in the Batch Outline. Do not add or remove recurring characters.
+2. Each character may have at most {max_outfits_per_character} complete reusable outfits for the whole series.
+3. Each outfit must be a complete English sentence or phrase that can be copied directly into image/video prompts.
+4. Outfits should be reusable slots, not one-off shot costumes. Good slots include home/casual, work/business-casual, outdoor/walking, travel, restaurant/social, or seasonal/festival.
+5. Do not create tiny variants that only change one accessory. A different outfit slot should visibly differ in top layer, color palette, formality, or weather/season purpose.
+6. Preserve identity consistency: keep signature accessories stable when important, such as glasses, wedding ring, familiar earrings, or a repeated scarf, but do not add random accessories to every outfit.
+7. Use the Batch Outline to decide whether five outfits are needed. If a character only appears in limited contexts, fewer than five is allowed.
+8. Avoid generating outfit slots for contexts this person should not naturally enter. For example, parents do not need office-meeting outfits unless the batch outline explicitly supports that.
+9. Future clip outline and shot plan stages will only choose from these wardrobe_options, so make the descriptions broad enough to cover the full timeline but specific enough for visual consistency.
+10. All clothing must be appropriate for adult characters. Do not include school uniforms, childish clothing, or minors.
+
+Recommended coverage:
+- protagonist: usually 4-5 outfits covering home/casual, work, outdoor/city walk, travel, and social/family.
+- spouse/close friends: usually 3-5 outfits depending on home, social, travel, and work relevance.
+- colleagues: usually 3-4 outfits focused on office/work, after-work social, casual weekend, and travel only if the batch outline supports travel with them.
+- parents/family elders: usually 2-4 outfits focused on home/family, outdoor errands, family meals/festivals, and travel departure only if relevant.
+
+Series context:
+User prompt:
+{user_prompt}
+
+Timeline: {start_date} to {end_date}
+Time span: {time_span}
+
+Protagonist JSON:
+{protagonist_json}
+
+Distribution JSON:
+{distribution_json}
+
+Recurring Character Catalog JSON:
+{character_catalog_json}
+
+Batch Outline JSON:
+{batch_outline_json}

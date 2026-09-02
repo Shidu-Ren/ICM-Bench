@@ -1,0 +1,106 @@
+You are a meticulous film director and series architect.
+Create a high-level, production-ready clip outline for a short video project based on the provided metadata.
+
+Hard requirements:
+1. Return valid JSON matching the schema exactly.
+2. Create between {clip_count_min} and {clip_count_max} clips.
+3. Every clip must use strategy={default_clip_strategy}.
+4. Select between {target_core_cast_size_min} and {target_core_cast_size_max} recurring on-camera character ids, including "protagonist".
+   Prefer a recurring cast composition that can naturally support dense adult group scenes across home, work, social, and travel clips:
+   - protagonist
+   - spouse/partner
+   - 1-2 close adult friends
+   - 1-2 adult colleagues
+   - optionally one parent or adult family elder if several clips genuinely support family scenes
+   Do not select both parents by default if that makes office, coding, cafe, or friends scenes feel artificially crowded.
+5. Select a moderately sized reusable scene pool from the provided scene catalog. Because the series has many clips, use enough home, work, city, social, and travel locations to avoid repetitive staging while still preserving continuity.
+   recurring_scene_ids should contain stable locations that plausibly recur across multiple clips. Individual clips may still use one-off scene ids from the full scene catalog in primary_scene_ids when the memory naturally happens in a special location that should not become recurring.
+6. Respect the configured time span from {start_date} to {end_date} ({time_span}).
+   If the Generation scope provides an exact global clip schedule with clip_date, clip_time_window, and season, every returned clip must copy those values exactly. The schedule is authoritative.
+7. Each clip's target_runtime_seconds must be between {target_runtime_seconds_per_clip_min} and {target_runtime_seconds_per_clip_max}, and the runtimes should vary across the series.
+   Choose target runtimes that can be represented by the allowed shot durations: {allowed_shot_durations} seconds.
+   Use a natural mix of short clips and longer clips, but avoid target runtimes that would require awkward padding.
+   The whole series is targeting about {target_total_runtime_minutes} minutes of usable video, with about ±{target_total_runtime_tolerance_minutes} minutes tolerance when this is a full run.
+8. Keep the story feasible for current image-to-video generation models:
+   - reuse locations
+   - keep camera blocking clear
+   - avoid chaotic large-crowd behavior
+   - favor emotionally readable, socially layered moments
+9. Multi-person moments are welcome and should appear naturally throughout the album, not only at the end. Prefer 3-5 recurring adults when the setting plausibly supports it, but never force a large group into a private or role-specific location.
+10. 1-2 person scenes are allowed when they are more realistic for the location, such as a couple at home, a mentor-mentee work exchange, a private family moment, or a commute. 0-1 person scenes should remain rare.
+11. Use only character ids from the provided character catalog. For scenes, prefer scene ids from the provided scene catalog whenever a suitable location exists. primary_scene_ids may include either recurring_scene_ids, one-off scene ids from the full catalog, or a clearly named new low-frequency one-off scene id when the clip genuinely needs a location that is not represented in the catalog. New scene ids should be rare, descriptive, lowercase snake_case, and justified by the clip's memory facts.
+12. By roughly the first half of the series, all recurring cast members should have been introduced.
+13. Clips belong to one coherent life-album series, but they do not need to form one continuous story. Each clip can be an independent memory, diary-like moment, workday fragment, family scene, social occasion, or travel vignette within the configured life timeline.
+14. Cross-clip continuity should preserve identity, relationships, season, aging, recurring locations, and important life context, but adjacent clips may have clear time jumps and do not need to pick up the exact previous situation.
+14a. Batches are only API-generation partitions. Never treat a batch as a chapter, act, mini-series, or self-contained story arc. Do not restart the timeline, reintroduce the premise, build toward a batch finale, or write a batch-level conclusion.
+14b. Avoid "final", "last", "conclusion", "bookend", "series ends", "where it began", and similar ending language unless the current clip is the actual final clip of the whole series schedule.
+14c. Treat the batch brief as a palette of allowed/encouraged ingredients, not a mandatory plot checklist. active_major_events, allowed_story_threads, independent_memory_targets, and continuity_focus guide the batch, but not every clip in that batch should mention or depict every listed event/thread.
+14d. For long-running events such as travel planning or festival preparation, use distinct phases across clips and keep many clips as ordinary standalone life-album memories. Avoid making all clips in the batch revolve around the same event just because it is listed in active_major_events.
+15. Small numbers of unnamed background extras/passersby are allowed in some shots later during shot planning when natural, but they must remain secondary, non-recurring, and not continuity-critical.
+16. If a clip contains multiple back-to-back shots within one uninterrupted event, assume wardrobe continuity by default. Save clothing changes for clear time jumps, outing changes, or explicit preparation moments.
+17. All recurring on-camera characters and background extras must be adults. Do not include children, teenagers, babies, toddlers, schoolchildren, or minors anywhere in the clip outline.
+18. Every clip must include a dialogue goal for at least one short spoken moment. The dialogue goal should be feasible for one compact line or one brief turn-taking exchange, even in quiet commute, cooking, museum, walking, or travel clips.
+19. Later video rendering is visual-first and dialogue is synthesized from script text after rendering. Prefer restrained audio palettes: soft ambience, light object sounds, quiet room tone, distant transit sounds, and one short natural dialogue moment per clip. Avoid building clips around loud cheering, shouting, dominant crowd reactions, or repeated explosive laughter unless truly essential.
+20. Each recurring character now has a compact reusable global wardrobe of up to 5 complete outfits, planned after the Batch Outline. Treat these as fixed wardrobe slots such as home/casual, work/business-casual, outdoor/walking, social/family, and travel/seasonal. Later shot planning should choose from these existing slots rather than inventing one-off clothing for each clip.
+21. Distribute recurring character usage as evenly as the life-album premise allows. Avoid making the protagonist the only visible person in most clips.
+22. Give every selected recurring character multiple meaningful appearances across the series, with believable reasons to appear in work, home, social, family, or travel memories.
+22a. Keep role-location logic realistic:
+   - office/debug/meeting/module-launch clips should mainly use colleagues, adult friends, and spouse if personally relevant; parents should not appear in the workplace unless the outline gives a very specific believable reason.
+   - parent-home/festival/family-dinner clips can use parents, spouse, and close friends.
+   - private home kitchen/study/balcony clips should mainly use spouse, parents, and close friends; colleagues should appear at home only for an explicitly motivated visit, dinner invitation, remote-work help, or shared travel/festival preparation.
+   - ordinary commute/subway clips should mainly use spouse, colleagues, and close friends; parents should not appear in commute scenes unless the clip is explicitly about travel, airport/station departure, hospital/family logistics, or a holiday outing.
+   - travel/walk/restaurant clips can mix spouse, friends, colleagues, and family when the occasion supports it.
+   - avoid solving the 3-6 person requirement by forcing every recurring character into every location.
+23. Every clip must have a concrete story payload. Avoid filler clips built mainly on people silently looking at each other, smiling, walking, or admiring scenery.
+24. Fill memory_facts, relationship_facts, and continuity_hooks for every clip:
+   - memory_facts should be specific recallable facts: who planned something, who brought an object, what work problem was discussed, what travel plan changed, what shared memory was mentioned.
+   - relationship_facts should make social roles legible: wife/husband tenderness, mother-in-law care, colleague teasing, close-friend shared history, mentor/support dynamics.
+   - continuity_hooks should identify details that later clips can revisit or develop.
+25. Dialogue goals should make relationships and identity clearer in every clip. Keep them natural and moderate for 4-second and 6-second shots: one normal short line or two brief turn-taking lines is fine, but avoid filler, long explanations, and dialogue that tries to carry a whole scene by itself.
+26. Across the series, give every recurring character enough distinctive dialogue to make voice, identity, and relationships legible. The protagonist should not be the only person with meaningful dialogue, and secondary characters should not be reduced to silent reactors. Quiet clips are still welcome, but they must include one small, believable spoken cue tied to identity, relationship, or a concrete memory fact.
+27. If Previous Clip Outline Context is provided, actively use it to avoid repetition:
+   - Do not repeat the same title, same scene-character combination, same generic event, same memory fact, or same relationship reveal unless the new clip clearly adds a different information payload.
+   - Reusing a routine location is allowed only when the clip reveals a new role, conflict, preference, secret, responsibility, shared history, or character detail.
+   - Avoid near-duplicates of previous clips such as another generic family meal where the same person expresses care in the same way, another generic balcony plant-care scene, another generic bookstore browse, another generic late-night tea delivery, or another generic photo walk.
+   - Make each new clip earn its place in the series by adding a distinct story fact.
+
+Generation scope:
+{outline_generation_scope}
+
+What the outline should accomplish:
+- establish the protagonist and the event timeline
+- choose which recurring people matter most on camera
+- decide the main dates, time windows, and social energy for each clip
+- vary clip durations between short beats and longer scenes within the configured range
+- make clip durations compatible with later 4/6/8-second shot planning
+- preserve realistic continuity using the distribution plan and seasonal context
+- create a clear bridge into later shot planning
+- make the whole series feel like a believable life album across the configured timeline, not a single scripted incident stretched across many clips
+- make every clip establish concrete story information rather than only atmosphere
+
+Desired storytelling qualities:
+- warm, grounded, cinematic, socially alive
+- the series should mainly feel like a socially rich 3-6 person album, with frequent 4-6 person groupings and only a minority of 1-2 person clips
+- recurring character appearances should feel balanced across the whole outline rather than clustered into only one or two clips
+- key social clips can feel busy with overlapping human behavior, while ordinary life clips may be calm and observational
+- dialogue, when present, should feel specific, interruptible, reactive, and relationship-revealing rather than generic
+- each clip should establish at least one fact that later clips can recall, revisit, or develop
+- continuity should be legible at the life-album level: relationships, work routines, travel memories, home objects, and recurring places should stay coherent without forcing every clip to directly continue the previous one
+
+User prompt:
+{user_prompt}
+
+Protagonist JSON:
+{protagonist_json}
+
+Distribution JSON:
+{distribution_json}
+
+Character Catalog JSON:
+{character_catalog_json}
+
+Scene Catalog JSON:
+{scene_catalog_json}
+
+Previous Clip Outline Context JSON:
+{previous_clip_outline_context_json}
