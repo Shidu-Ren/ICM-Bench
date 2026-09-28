@@ -169,8 +169,8 @@ def rejudge_row(
         agent_answer=response,
     )
     text, usage, errors = judge_client.judge(prompt)
-    verdict = text.strip().lower().rstrip(".")
-    out["gpt_eval"] = verdict == "yes"
+    verdict = text.strip().lower()
+    out["gpt_eval"] = "yes" in verdict
     out["judge_response"] = text
     out["judge_model"] = judge_client.model
     out["judge_usage"] = usage
