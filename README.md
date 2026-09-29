@@ -173,3 +173,8 @@ If you use ICM-Bench in your research, please cite:
 ## Acknowledgments
 
 Our evaluation integrations build on [M3-Agent](https://github.com/ByteDance-Seed/m3-agent), [Vgent](https://github.com/xiaoqian-shen/Vgent), and [HippoRAG2](https://github.com/OSU-NLP-Group/HippoRAG). We thank their authors for making these frameworks available.
+
+## Contact
+
+- Shidu Ren: [ryan.ren@mail.utoronto.ca](mailto:ryan.ren@mail.utoronto.ca)
+- Yunze Liu: [liuyzchina@gmail.com](mailto:liuyzchina@gmail.com)
